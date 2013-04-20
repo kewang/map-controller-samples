@@ -18,7 +18,7 @@ public class TrackingMyLocation extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.show_map);
+		setContentView(R.layout.tracking_my_location);
 
 		findView();
 		setView(savedInstanceState);

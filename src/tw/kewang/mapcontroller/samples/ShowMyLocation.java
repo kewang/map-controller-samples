@@ -3,18 +3,22 @@ package tw.kewang.mapcontroller.samples;
 import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
 
 public class ShowMyLocation extends Activity {
 	private MapView mv;
+	private Button btnShowMyLocation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.show_map);
+		setContentView(R.layout.show_my_location);
 
 		findView();
 		setView(savedInstanceState);
@@ -24,6 +28,7 @@ public class ShowMyLocation extends Activity {
 
 	private void findView() {
 		mv = (MapView) findViewById(R.id.map);
+		btnShowMyLocation = (Button) findViewById(R.id.button_show_my_location);
 	}
 
 	private void setView(Bundle savedInstanceState) {
@@ -37,6 +42,12 @@ public class ShowMyLocation extends Activity {
 	}
 
 	private void setListener() {
+		btnShowMyLocation.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				MapController.moveToMyLocation(false);
+			}
+		});
 	}
 
 	private void doExtra() {
