@@ -31,7 +31,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDpBGtr0J2z95StDayTokyP67Ir9wlR7tA" />
+            android:value="AIzaSyB2mEArDDRG9F5yq9H7kbS_x2Jd8nVObko" />
 
         <activity
             android:name="tw.kewang.mapcontroller.samples.Main"

@@ -16,7 +16,7 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 
 		findView();
-		setView();
+		setView(savedInstanceState);
 		setListener();
 		doExtra();
 	}
@@ -25,7 +25,9 @@ public class Main extends Activity {
 		mv = (MapView) findViewById(R.id.map);
 	}
 
-	private void setView() {
+	private void setView(Bundle savedInstanceState) {
+		mv.onCreate(savedInstanceState);
+
 		MapController.attach(this, mv.getMap());
 	}
 
@@ -34,5 +36,40 @@ public class Main extends Activity {
 
 	private void doExtra() {
 		MapController.moveToMyLocation(false);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		mv.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		mv.onPause();
+
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		mv.onDestroy();
+
+		super.onDestroy();
+	}
+
+	@Override
+	public void onLowMemory() {
+		super.onLowMemory();
+
+		mv.onLowMemory();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		mv.onSaveInstanceState(outState);
 	}
 }
