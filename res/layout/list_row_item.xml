@@ -8,5 +8,4 @@
     android:paddingRight="16dp"
     android:paddingTop="8dp"
     android:singleLine="true"
-    android:text="AAA"
     android:textAppearance="?android:attr/textAppearanceLarge" />

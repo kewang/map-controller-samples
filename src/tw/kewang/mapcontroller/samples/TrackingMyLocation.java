@@ -1,9 +1,13 @@
 package tw.kewang.mapcontroller.samples;
 
 import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.MoveMyLocation;
 import android.app.Activity;
+import android.location.Location;
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
 public class TrackingMyLocation extends Activity {
@@ -35,7 +39,13 @@ public class TrackingMyLocation extends Activity {
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(true);
+		MapController.moveToMyLocation(true, new MoveMyLocation() {
+			@Override
+			public void moved(GoogleMap map, Location location) {
+				Toast.makeText(TrackingMyLocation.this, location.toString(),
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
