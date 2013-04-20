@@ -22,6 +22,7 @@ public class Main extends ListActivity {
 
 		adapter.addSample("Show my location", ShowMyLocation.class);
 		adapter.addSample("Tracking my location", TrackingMyLocation.class);
+		adapter.addSample("Show specific location", ShowSpecificLocation.class);
 
 		setListAdapter(adapter);
 	}
