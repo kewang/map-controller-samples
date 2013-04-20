@@ -24,6 +24,7 @@ public class Main extends ListActivity {
 		adapter.addSample("Tracking my location", TrackingMyLocation.class);
 		adapter.addSample("Show specific location", ShowSpecificLocation.class);
 		adapter.addSample("When map click", WhenMapClick.class);
+		adapter.addSample("Add marker", AddMarker.class);
 
 		setListAdapter(adapter);
 	}
