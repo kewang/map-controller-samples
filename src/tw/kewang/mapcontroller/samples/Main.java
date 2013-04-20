@@ -1,75 +1,34 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
-import android.app.Activity;
+import tw.kewang.mapcontroller.samples.SamplesAdapter.SampleItem;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
-import com.google.android.gms.maps.MapView;
-
-public class Main extends Activity {
-	private MapView mv;
+public class Main extends ListActivity {
+	private SamplesAdapter adapter;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main);
-
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
+		setView();
 	}
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+	private void setView() {
+		adapter = new SamplesAdapter(this);
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+		adapter.addSample("Show my location", ShowMylocation.class);
 
-		MapController.attach(this, mv.getMap());
-	}
-
-	private void setListener() {
-	}
-
-	private void doExtra() {
-		MapController.moveToMyLocation(false);
+		setListAdapter(adapter);
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		SampleItem sample = (SampleItem) adapter.getItem(position);
 
-		mv.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		mv.onPause();
-
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
-
-		super.onDestroy();
-	}
-
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
-
-		mv.onLowMemory();
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		mv.onSaveInstanceState(outState);
+		startActivity(new Intent(this, sample.clazz));
 	}
 }
