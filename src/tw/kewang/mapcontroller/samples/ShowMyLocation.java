@@ -4,6 +4,7 @@ import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
 
 public class ShowMyLocation extends Activity {
@@ -28,7 +29,11 @@ public class ShowMyLocation extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		MapController.attach(this, mv.getMap());
+		try {
+			MapController.attach(this, mv.getMap());
+		} catch (GooglePlayServicesNotAvailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setListener() {

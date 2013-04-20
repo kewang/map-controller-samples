@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
@@ -32,7 +33,11 @@ public class TrackingMyLocation extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		MapController.attach(this, mv.getMap());
+		try {
+			MapController.attach(this, mv.getMap());
+		} catch (GooglePlayServicesNotAvailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void setListener() {
