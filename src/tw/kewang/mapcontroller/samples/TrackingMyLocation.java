@@ -64,6 +64,8 @@ public class TrackingMyLocation extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		MapController.detach();
+
 		mv.onDestroy();
 
 		super.onDestroy();
