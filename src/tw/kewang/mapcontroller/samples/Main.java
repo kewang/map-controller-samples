@@ -20,7 +20,8 @@ public class Main extends ListActivity {
 	private void setView() {
 		adapter = new SamplesAdapter(this);
 
-		adapter.addSample("Show my location", ShowMylocation.class);
+		adapter.addSample("Show my location", ShowMyLocation.class);
+		adapter.addSample("Tracking my location", TrackingMyLocation.class);
 
 		setListAdapter(adapter);
 	}

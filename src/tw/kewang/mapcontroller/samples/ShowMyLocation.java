@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.maps.MapView;
 
-public class ShowMylocation extends Activity {
+public class ShowMyLocation extends Activity {
 	private MapView mv;
 
 	@Override
