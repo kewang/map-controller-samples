@@ -1,8 +1,8 @@
 package tw.kewang.mapcontroller.samples;
 
 import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.InfoWindowClick;
 import tw.kewang.mapcontroller.MapController.MapClick;
-import tw.kewang.mapcontroller.MapController.MarkerAdd;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -15,14 +15,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class AddMarker extends Activity {
+public class WhenInfoWindowClick extends Activity {
 	private MapView mv;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.add_marker);
+		setContentView(R.layout.when_info_window_click);
 
 		findView();
 		setView(savedInstanceState);
@@ -55,17 +55,18 @@ public class AddMarker extends Activity {
 				opts.title("Test Title");
 				opts.snippet("Summary");
 
-				addMarker(opts);
+				MapController.add(opts);
 			}
 		});
-	}
 
-	private void addMarker(MarkerOptions opts) {
-		MapController.add(opts, new MarkerAdd() {
+		MapController.whenInfoWindowClick(new InfoWindowClick() {
 			@Override
-			public void markerAdded(GoogleMap map, Marker marker) {
-				Toast.makeText(AddMarker.this, marker.getId(),
+			public void markerInfoWindowClicked(GoogleMap map, Marker marker) {
+				Toast.makeText(WhenInfoWindowClick.this,
+						marker.getId() + ": " + marker.getTitle(),
 						Toast.LENGTH_SHORT).show();
+
+				marker.hideInfoWindow();
 			}
 		});
 	}
