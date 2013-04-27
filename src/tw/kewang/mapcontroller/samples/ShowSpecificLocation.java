@@ -1,7 +1,7 @@
 package tw.kewang.mapcontroller.samples;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.Move;
+import tw.kewang.mapcontroller.MapController.ChangePosition;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -60,9 +60,9 @@ public class ShowSpecificLocation extends Activity {
 		btnAnimate.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MapController.animateTo(latLng, new Move() {
+				MapController.animateTo(latLng, new ChangePosition() {
 					@Override
-					public void moved(GoogleMap map, CameraPosition position) {
+					public void changed(GoogleMap map, CameraPosition position) {
 						Toast.makeText(ShowSpecificLocation.this,
 								position.toString(), Toast.LENGTH_SHORT).show();
 					}
