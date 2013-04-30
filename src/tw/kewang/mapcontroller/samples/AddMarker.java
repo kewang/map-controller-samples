@@ -61,7 +61,7 @@ public class AddMarker extends Activity {
 	}
 
 	private void addMarker(MarkerOptions opts) {
-		MapController.add(opts, new MarkerAdd() {
+		MapController.addMarker(opts, new MarkerAdd() {
 			@Override
 			public void markerAdded(GoogleMap map, Marker marker) {
 				Toast.makeText(AddMarker.this, marker.getId(),

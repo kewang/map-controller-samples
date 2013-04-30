@@ -55,7 +55,7 @@ public class WhenInfoWindowClick extends Activity {
 				opts.title("Test Title");
 				opts.snippet("Summary");
 
-				MapController.add(opts);
+				MapController.addMarker(opts);
 			}
 		});
 

@@ -54,7 +54,7 @@ public class AddBulkMarkers extends Activity {
 		addMarker(25.03338, 121.56226, "Taipei 101");
 		addMarker(24.99836, 121.58360, "Taipei Zoo");
 
-		MapController.addAll(allOpts);
+		MapController.addMarkers(allOpts);
 	}
 
 	private void addMarker(double lat, double lng, String name) {
