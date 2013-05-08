@@ -29,6 +29,7 @@ public class Main extends ListActivity {
 		adapter.addSample("When info window click", WhenInfoWindowClick.class);
 		adapter.addSample("Show traffic layer", ShowTrafficLayer.class);
 		adapter.addSample("Show indoor layer", ShowIndoorLayer.class);
+		adapter.addSample("Show specific bounds", ShowSpecificBounds.class);
 
 		setListAdapter(adapter);
 	}
