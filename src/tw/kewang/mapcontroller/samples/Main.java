@@ -27,6 +27,8 @@ public class Main extends ListActivity {
 		adapter.addSample("Add marker", AddMarker.class);
 		adapter.addSample("Add bulk markers", AddBulkMarkers.class);
 		adapter.addSample("When info window click", WhenInfoWindowClick.class);
+		adapter.addSample("Show traffic layer", ShowTrafficLayer.class);
+		adapter.addSample("Show indoor layer", ShowIndoorLayer.class);
 
 		setListAdapter(adapter);
 	}
