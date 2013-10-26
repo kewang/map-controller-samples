@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -17,6 +16,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class WhenInfoWindowClick extends Activity {
 	private MapView mv;
+	private MapController mc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +37,11 @@ public class WhenInfoWindowClick extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		try {
-			MapController.attach(this, mv.getMap());
-		} catch (GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace();
-		}
+		mc = new MapController(mv.getMap());
 	}
 
 	private void setListener() {
-		MapController.whenMapClick(new ClickCallback() {
+		mc.whenMapClick(new ClickCallback() {
 			@Override
 			public void clicked(GoogleMap map, LatLng latLng) {
 				MarkerOptions opts = new MarkerOptions();
@@ -55,11 +51,11 @@ public class WhenInfoWindowClick extends Activity {
 				opts.title("Test Title");
 				opts.snippet("Summary");
 
-				MapController.addMarker(opts);
+				mc.addMarker(opts);
 			}
 		});
 
-		MapController.whenInfoWindowClick(new MarkerCallback() {
+		mc.whenInfoWindowClick(new MarkerCallback() {
 			@Override
 			public void invokedMarker(GoogleMap map, Marker marker) {
 				Toast.makeText(WhenInfoWindowClick.this,
@@ -72,7 +68,7 @@ public class WhenInfoWindowClick extends Activity {
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(false);
+		mc.moveToMyLocation(false);
 	}
 
 	@Override
@@ -91,8 +87,6 @@ public class WhenInfoWindowClick extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		MapController.detach();
-
 		mv.onDestroy();
 
 		super.onDestroy();

@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
 
 public class ShowMyLocation extends Activity {
 	private MapView mv;
 	private Button btnShowMyLocation;
+	private MapController mc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +34,20 @@ public class ShowMyLocation extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		try {
-			MapController.attach(this, mv.getMap());
-		} catch (GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace();
-		}
+		mc = new MapController(mv.getMap());
 	}
 
 	private void setListener() {
 		btnShowMyLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				MapController.moveToMyLocation(false);
+				mc.moveToMyLocation(false);
 			}
 		});
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(false);
+		mc.moveToMyLocation(false);
 	}
 
 	@Override
@@ -70,8 +66,6 @@ public class ShowMyLocation extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		MapController.detach();
-
 		mv.onDestroy();
 
 		super.onDestroy();

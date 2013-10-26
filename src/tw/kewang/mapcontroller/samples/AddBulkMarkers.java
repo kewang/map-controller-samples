@@ -6,7 +6,6 @@ import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -15,6 +14,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class AddBulkMarkers extends Activity {
 	private MapView mv;
 	private ArrayList<MarkerOptions> allOpts;
+	private MapController mc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +35,14 @@ public class AddBulkMarkers extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		try {
-			MapController.attach(this, mv.getMap());
-		} catch (GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace();
-		}
+		mc = new MapController(mv.getMap());
 	}
 
 	private void setListener() {
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(false);
+		mc.moveToMyLocation(false);
 
 		allOpts = new ArrayList<MarkerOptions>();
 
@@ -54,7 +50,7 @@ public class AddBulkMarkers extends Activity {
 		addMarker(25.03338, 121.56226, "Taipei 101");
 		addMarker(24.99836, 121.58360, "Taipei Zoo");
 
-		MapController.addMarkers(allOpts);
+		mc.addMarkers(allOpts);
 	}
 
 	private void addMarker(double lat, double lng, String name) {
@@ -84,8 +80,6 @@ public class AddBulkMarkers extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		MapController.detach();
-
 		mv.onDestroy();
 
 		super.onDestroy();

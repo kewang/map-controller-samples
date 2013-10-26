@@ -7,12 +7,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
 public class TrackingMyLocation extends Activity {
 	private MapView mv;
+	private MapController mc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +33,14 @@ public class TrackingMyLocation extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		try {
-			MapController.attach(this, mv.getMap());
-		} catch (GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace();
-		}
+		mc = new MapController(mv.getMap());
 	}
 
 	private void setListener() {
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(true, new ChangeMyLocation() {
+		mc.moveToMyLocation(true, new ChangeMyLocation() {
 			@Override
 			public void changed(GoogleMap map, Location location) {
 				Toast.makeText(TrackingMyLocation.this, location.toString(),
@@ -69,8 +65,6 @@ public class TrackingMyLocation extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		MapController.detach();
-
 		mv.onDestroy();
 
 		super.onDestroy();

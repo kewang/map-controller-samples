@@ -4,11 +4,11 @@ import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
 
 public class ShowIndoorLayer extends Activity {
 	private MapView mv;
+	private MapController mc;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +29,16 @@ public class ShowIndoorLayer extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		try {
-			MapController.attach(this, mv.getMap());
-		} catch (GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace();
-		}
+		mc = new MapController(mv.getMap());
 	}
 
 	private void setListener() {
 	}
 
 	private void doExtra() {
-		MapController.moveToMyLocation(false);
+		mc.moveToMyLocation(false);
 
-		MapController.showIndoor(true);
+		mc.showIndoor(true);
 	}
 
 	@Override
@@ -61,8 +57,6 @@ public class ShowIndoorLayer extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		MapController.detach();
-
 		mv.onDestroy();
 
 		super.onDestroy();

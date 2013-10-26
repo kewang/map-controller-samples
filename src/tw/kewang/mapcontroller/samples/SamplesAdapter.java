@@ -63,11 +63,11 @@ public class SamplesAdapter extends BaseAdapter {
 		holder.txtTitle.setText(sample.title);
 	}
 
-	private static class Holder {
+	private  class Holder {
 		private TextView txtTitle;
 	}
 
-	public static class SampleItem {
+	public  class SampleItem {
 		String title;
 		Class<?> clazz;
 
