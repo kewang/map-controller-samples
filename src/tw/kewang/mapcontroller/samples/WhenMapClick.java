@@ -1,7 +1,7 @@
 package tw.kewang.mapcontroller.samples;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.MapClick;
+import tw.kewang.mapcontroller.MapController.ClickCallback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -41,9 +41,9 @@ public class WhenMapClick extends Activity {
 	}
 
 	private void setListener() {
-		MapController.whenMapClick(new MapClick() {
+		MapController.whenMapClick(new ClickCallback() {
 			@Override
-			public void mapClicked(GoogleMap map, LatLng latLng) {
+			public void clicked(GoogleMap map, LatLng latLng) {
 				Toast.makeText(WhenMapClick.this, latLng.toString(),
 						Toast.LENGTH_SHORT).show();
 			}

@@ -1,8 +1,8 @@
 package tw.kewang.mapcontroller.samples;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.InfoWindowClick;
-import tw.kewang.mapcontroller.MapController.MapClick;
+import tw.kewang.mapcontroller.MapController.ClickCallback;
+import tw.kewang.mapcontroller.MapController.MarkerCallback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -45,9 +45,9 @@ public class WhenInfoWindowClick extends Activity {
 	}
 
 	private void setListener() {
-		MapController.whenMapClick(new MapClick() {
+		MapController.whenMapClick(new ClickCallback() {
 			@Override
-			public void mapClicked(GoogleMap map, LatLng latLng) {
+			public void clicked(GoogleMap map, LatLng latLng) {
 				MarkerOptions opts = new MarkerOptions();
 
 				opts.position(latLng);
@@ -59,9 +59,9 @@ public class WhenInfoWindowClick extends Activity {
 			}
 		});
 
-		MapController.whenInfoWindowClick(new InfoWindowClick() {
+		MapController.whenInfoWindowClick(new MarkerCallback() {
 			@Override
-			public void markerInfoWindowClicked(GoogleMap map, Marker marker) {
+			public void invokedMarker(GoogleMap map, Marker marker) {
 				Toast.makeText(WhenInfoWindowClick.this,
 						marker.getId() + ": " + marker.getTitle(),
 						Toast.LENGTH_SHORT).show();
