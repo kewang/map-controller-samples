@@ -23,6 +23,7 @@ public class Main extends ListActivity {
 		adapter.addSample("Show my location", ShowMyLocation.class);
 		adapter.addSample("Tracking my location", TrackingMyLocation.class);
 		adapter.addSample("Show specific location", ShowSpecificLocation.class);
+		adapter.addSample("Show multiple maps", ShowMultiMaps.class);
 		adapter.addSample("When map click", WhenMapClick.class);
 		adapter.addSample("Add marker", AddMarker.class);
 		adapter.addSample("Add bulk markers", AddBulkMarkers.class);
