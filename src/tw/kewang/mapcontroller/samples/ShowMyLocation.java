@@ -41,13 +41,13 @@ public class ShowMyLocation extends Activity {
 		btnShowMyLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mc.moveToMyLocation(false);
+				mc.moveToMyLocation();
 			}
 		});
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 	}
 
 	@Override

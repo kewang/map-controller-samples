@@ -67,7 +67,7 @@ public class AddMarker extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class WhenMapClick extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 	}
 
 	@Override

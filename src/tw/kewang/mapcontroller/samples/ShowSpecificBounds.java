@@ -42,7 +42,7 @@ public class ShowSpecificBounds extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false, new ChangeMyLocation() {
+		mc.moveToMyLocation(new ChangeMyLocation() {
 			@Override
 			public void changed(GoogleMap map, Location location) {
 				mc.setBounds(latLng1, latLng2, 10);

@@ -36,7 +36,7 @@ public class ShowTrafficLayer extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 
 		mc.showTraffic(true);
 	}

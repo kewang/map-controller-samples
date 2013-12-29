@@ -68,7 +68,7 @@ public class ShowSpecificLocation extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 	}
 
 	@Override

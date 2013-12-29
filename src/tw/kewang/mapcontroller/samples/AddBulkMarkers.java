@@ -42,7 +42,7 @@ public class AddBulkMarkers extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 
 		allOpts = new ArrayList<MarkerOptions>();
 

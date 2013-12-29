@@ -68,7 +68,7 @@ public class WhenInfoWindowClick extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 	}
 
 	@Override

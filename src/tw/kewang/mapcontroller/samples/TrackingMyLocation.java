@@ -40,7 +40,7 @@ public class TrackingMyLocation extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(true, new ChangeMyLocation() {
+		mc.startTrackMyLocation(new ChangeMyLocation() {
 			@Override
 			public void changed(GoogleMap map, Location location) {
 				Toast.makeText(TrackingMyLocation.this, location.toString(),
@@ -65,6 +65,8 @@ public class TrackingMyLocation extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		mc.stopTrackMyLocation();
+
 		mv.onDestroy();
 
 		super.onDestroy();

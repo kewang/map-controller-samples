@@ -36,7 +36,7 @@ public class ShowIndoorLayer extends Activity {
 	}
 
 	private void doExtra() {
-		mc.moveToMyLocation(false);
+		mc.moveToMyLocation();
 
 		mc.showIndoor(true);
 	}
