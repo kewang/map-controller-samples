@@ -42,7 +42,8 @@ public class TrackingMyLocation extends Activity {
 	private void doExtra() {
 		mc.startTrackMyLocation(new ChangeMyLocation() {
 			@Override
-			public void changed(GoogleMap map, Location location) {
+			public void changed(GoogleMap map, Location location,
+					boolean lastLocation) {
 				Toast.makeText(TrackingMyLocation.this, location.toString(),
 						Toast.LENGTH_SHORT).show();
 			}
