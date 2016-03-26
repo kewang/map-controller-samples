@@ -1,8 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import java.util.ArrayList;
-
-import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 
@@ -11,91 +8,92 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class AddBulkMarkers extends Activity {
-	private MapView mv;
-	private ArrayList<MarkerOptions> allOpts;
-	private MapController mc;
+import java.util.ArrayList;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-		setContentView(R.layout.add_bulk_markers);
+public class AddBulkMarkers extends Activity implements MapControllerReady {
+    private MapView mv;
+    private ArrayList<MarkerOptions> allOpts;
+    private MapController mc;
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+        setContentView(R.layout.add_bulk_markers);
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+        findView();
+        setView(savedInstanceState);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+    }
 
-	private void setListener() {
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void doExtra() {
-		mc.moveToMyLocation();
+        mc = new MapController(mv, this);
+    }
 
-		allOpts = new ArrayList<MarkerOptions>();
+    private void addMarker(double lat, double lng, String name) {
+        MarkerOptions opts = new MarkerOptions();
 
-		addMarker(25.04157, 121.51519, "228");
-		addMarker(25.03338, 121.56226, "Taipei 101");
-		addMarker(24.99836, 121.58360, "Taipei Zoo");
+        opts.position(new LatLng(lat, lng));
+        opts.icon(BitmapDescriptorFactory.defaultMarker());
+        opts.title(name);
+        opts.snippet("Summary");
 
-		mc.addMarkers(allOpts);
-	}
+        allOpts.add(opts);
+    }
 
-	private void addMarker(double lat, double lng, String name) {
-		MarkerOptions opts = new MarkerOptions();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		opts.position(new LatLng(lat, lng));
-		opts.icon(BitmapDescriptorFactory.defaultMarker());
-		opts.title(name);
-		opts.snippet("Summary");
+        mv.onResume();
+    }
 
-		allOpts.add(opts);
-	}
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+        super.onPause();
+    }
 
-		mv.onResume();
-	}
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+        super.onDestroy();
+    }
 
-		super.onPause();
-	}
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+        mv.onLowMemory();
+    }
 
-		super.onDestroy();
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+        mv.onSaveInstanceState(outState);
+    }
 
-		mv.onLowMemory();
-	}
+    @Override
+    public void already(MapController controller) {
+        controller.moveToMyLocation();
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+        allOpts = new ArrayList<MarkerOptions>();
 
-		mv.onSaveInstanceState(outState);
-	}
+        addMarker(25.04157, 121.51519, "228");
+        addMarker(25.03338, 121.56226, "Taipei 101");
+        addMarker(24.99836, 121.58360, "Taipei Zoo");
+
+        controller.addMarkers(allOpts);
+    }
 }
