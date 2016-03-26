@@ -1,7 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
@@ -9,80 +7,83 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class TrackingMyLocation extends Activity implements OnMapReadyCallback {
-	private MapView mv;
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class TrackingMyLocation extends Activity implements MapControllerReady {
+    private MapView mv;
+    private MapController mc;
 
-		setContentView(R.layout.tracking_my_location);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-	}
+        setContentView(R.layout.tracking_my_location);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+        findView();
+        setView(savedInstanceState);
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+    }
 
-		mv.getMapAsync(this);
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+        mc = new MapController(mv, this);
+    }
 
-		mv.onResume();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+        mv.onResume();
+    }
 
-		super.onPause();
-	}
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-	@Override
-	protected void onDestroy() {
-		mc.stopTrackMyLocation();
+        super.onPause();
+    }
 
-		mv.onDestroy();
+    @Override
+    protected void onDestroy() {
+        mc.stopTrackMyLocation();
 
-		super.onDestroy();
-	}
+        mv.onDestroy();
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+        super.onDestroy();
+    }
 
-		mv.onLowMemory();
-	}
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+        mv.onLowMemory();
+    }
 
-		mv.onSaveInstanceState(outState);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-	@Override
-	public void onMapReady(GoogleMap googleMap) {
-		mc = new MapController(googleMap);
+        mv.onSaveInstanceState(outState);
+    }
 
-		mc.startTrackMyLocation(new ChangeMyLocation() {
-			@Override
-			public void changed(GoogleMap map, Location location,
-								boolean lastLocation) {
-				Toast.makeText(TrackingMyLocation.this, location.toString(),
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
+    @Override
+    public void already(MapController controller) {
+        mc = controller;
+
+        controller.startTrackMyLocation(new ChangeMyLocation() {
+            @Override
+            public void changed(GoogleMap map, Location location,
+                                boolean lastLocation) {
+                Toast.makeText(TrackingMyLocation.this, location.toString(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
