@@ -1,6 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,79 +8,84 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.MapView;
 
-public class ShowMyLocation extends Activity {
-	private MapView mv;
-	private Button btnShowMyLocation;
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class ShowMyLocation extends Activity implements MapControllerReady {
+    private MapView mv;
+    private Button btnShowMyLocation;
+    private MapController mc;
 
-		setContentView(R.layout.show_my_location);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+        setContentView(R.layout.show_my_location);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-		btnShowMyLocation = (Button) findViewById(R.id.button_show_my_location);
-	}
+        findView();
+        setView(savedInstanceState);
+        setListener();
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+        btnShowMyLocation = (Button) findViewById(R.id.button_show_my_location);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void setListener() {
-		btnShowMyLocation.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mc.moveToMyLocation();
-			}
-		});
-	}
+        mc = new MapController(mv, this);
+    }
 
-	private void doExtra() {
-		mc.moveToMyLocation();
-	}
+    private void setListener() {
+        btnShowMyLocation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mc.moveToMyLocation();
+            }
+        });
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		mv.onResume();
-	}
+        mv.onResume();
+    }
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-		super.onPause();
-	}
+        super.onPause();
+    }
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-		mv.onLowMemory();
-	}
+        mv.onLowMemory();
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-		mv.onSaveInstanceState(outState);
-	}
+        mv.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void already(MapController controller) {
+        mc = controller;
+
+        controller.moveToMyLocation();
+    }
 }

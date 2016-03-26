@@ -1,78 +1,76 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
 import android.app.Activity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.MapView;
 
-public class ShowIndoorLayer extends Activity {
-	private MapView mv;
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class ShowIndoorLayer extends Activity implements MapControllerReady {
+    private MapView mv;
+    private MapController mc;
 
-		setContentView(R.layout.show_indoor_layer);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+        setContentView(R.layout.show_indoor_layer);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+        findView();
+        setView(savedInstanceState);
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void setListener() {
-	}
+        mc = new MapController(mv, this);
+    }
 
-	private void doExtra() {
-		mc.moveToMyLocation();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		mc.showIndoor(true);
-	}
+        mv.onResume();
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-		mv.onResume();
-	}
+        super.onPause();
+    }
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-		super.onPause();
-	}
+        super.onDestroy();
+    }
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-		super.onDestroy();
-	}
+        mv.onLowMemory();
+    }
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-		mv.onLowMemory();
-	}
+        mv.onSaveInstanceState(outState);
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+    @Override
+    public void already(MapController controller) {
+        controller.moveToMyLocation();
 
-		mv.onSaveInstanceState(outState);
-	}
+        controller.showIndoor(true);
+    }
 }

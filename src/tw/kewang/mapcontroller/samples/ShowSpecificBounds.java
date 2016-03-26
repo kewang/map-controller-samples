@@ -1,7 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,79 +8,89 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ShowSpecificBounds extends Activity {
-	private MapView mv;
-	private LatLng latLng1 = new LatLng(22.03338, 121.56463);
-	private LatLng latLng2 = new LatLng(23.03338, 120.56463);
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class ShowSpecificBounds extends Activity implements MapControllerReady {
+    private MapView mv;
+    private LatLng latLng1 = new LatLng(22.03338, 121.56463);
+    private LatLng latLng2 = new LatLng(23.03338, 120.56463);
+    private MapController mc;
 
-		setContentView(R.layout.show_specific_bounds);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+        setContentView(R.layout.show_specific_bounds);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+        findView();
+        setView(savedInstanceState);
+        setListener();
+        doExtra();
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void setListener() {
-	}
+        mc = new MapController(mv, this);
+    }
 
-	private void doExtra() {
-		mc.moveToMyLocation(new ChangeMyLocation() {
-			@Override
-			public void changed(GoogleMap map, Location location,
-					boolean lastLocation) {
-				mc.setBounds(latLng1, latLng2, 10);
-			}
-		});
-	}
+    private void setListener() {
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    private void doExtra() {
+    }
 
-		mv.onResume();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+        mv.onResume();
+    }
 
-		super.onPause();
-	}
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+        super.onPause();
+    }
 
-		super.onDestroy();
-	}
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+        super.onDestroy();
+    }
 
-		mv.onLowMemory();
-	}
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+        mv.onLowMemory();
+    }
 
-		mv.onSaveInstanceState(outState);
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        mv.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void already(MapController controller) {
+        mc = controller;
+
+        controller.moveToMyLocation(new ChangeMyLocation() {
+            @Override
+            public void changed(GoogleMap map, Location location,
+                                boolean lastLocation) {
+                mc.setBounds(latLng1, latLng2, 10);
+            }
+        });
+    }
 }

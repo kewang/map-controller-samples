@@ -1,8 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ClickCallback;
-import tw.kewang.mapcontroller.MapController.MarkerCallback;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,95 +11,99 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class WhenInfoWindowClick extends Activity {
-	private MapView mv;
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.ClickCallback;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
+import tw.kewang.mapcontroller.MapController.MarkerCallback;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class WhenInfoWindowClick extends Activity implements MapControllerReady {
+    private MapView mv;
+    private MapController mc;
 
-		setContentView(R.layout.when_info_window_click);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+        setContentView(R.layout.when_info_window_click);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-	}
+        findView();
+        setView(savedInstanceState);
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void setListener() {
-		mc.whenMapClick(new ClickCallback() {
-			@Override
-			public void clicked(GoogleMap map, LatLng latLng) {
-				MarkerOptions opts = new MarkerOptions();
+        mc = new MapController(mv.getMap());
+    }
 
-				opts.position(latLng);
-				opts.icon(BitmapDescriptorFactory.defaultMarker());
-				opts.title("Test Title");
-				opts.snippet("Summary");
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-				mc.addMarker(opts);
-			}
-		});
+        mv.onResume();
+    }
 
-		mc.whenInfoWindowClick(new MarkerCallback() {
-			@Override
-			public void invokedMarker(GoogleMap map, Marker marker) {
-				Toast.makeText(WhenInfoWindowClick.this,
-						marker.getId() + ": " + marker.getTitle(),
-						Toast.LENGTH_SHORT).show();
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-				marker.hideInfoWindow();
-			}
-		});
-	}
+        super.onPause();
+    }
 
-	private void doExtra() {
-		mc.moveToMyLocation();
-	}
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+        super.onDestroy();
+    }
 
-		mv.onResume();
-	}
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+        mv.onLowMemory();
+    }
 
-		super.onPause();
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+        mv.onSaveInstanceState(outState);
+    }
 
-		super.onDestroy();
-	}
+    @Override
+    public void already(MapController controller) {
+        mc = controller;
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+        controller.moveToMyLocation();
 
-		mv.onLowMemory();
-	}
+        controller.whenMapClick(new ClickCallback() {
+            @Override
+            public void clicked(GoogleMap map, LatLng latLng) {
+                MarkerOptions opts = new MarkerOptions();
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+                opts.position(latLng);
+                opts.icon(BitmapDescriptorFactory.defaultMarker());
+                opts.title("Test Title");
+                opts.snippet("Summary");
 
-		mv.onSaveInstanceState(outState);
-	}
+                mc.addMarker(opts);
+            }
+        });
+
+        controller.whenInfoWindowClick(new MarkerCallback() {
+            @Override
+            public void invokedMarker(GoogleMap map, Marker marker) {
+                Toast.makeText(WhenInfoWindowClick.this,
+                        marker.getId() + ": " + marker.getTitle(),
+                        Toast.LENGTH_SHORT).show();
+
+                marker.hideInfoWindow();
+            }
+        });
+    }
 }
