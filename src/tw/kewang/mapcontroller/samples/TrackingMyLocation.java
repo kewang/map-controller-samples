@@ -9,8 +9,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class TrackingMyLocation extends Activity {
+public class TrackingMyLocation extends Activity implements OnMapReadyCallback {
 	private MapView mv;
 	private MapController mc;
 
@@ -22,8 +23,6 @@ public class TrackingMyLocation extends Activity {
 
 		findView();
 		setView(savedInstanceState);
-		setListener();
-		doExtra();
 	}
 
 	private void findView() {
@@ -33,21 +32,7 @@ public class TrackingMyLocation extends Activity {
 	private void setView(Bundle savedInstanceState) {
 		mv.onCreate(savedInstanceState);
 
-		mc = new MapController(mv.getMap());
-	}
-
-	private void setListener() {
-	}
-
-	private void doExtra() {
-		mc.startTrackMyLocation(new ChangeMyLocation() {
-			@Override
-			public void changed(GoogleMap map, Location location,
-					boolean lastLocation) {
-				Toast.makeText(TrackingMyLocation.this, location.toString(),
-						Toast.LENGTH_SHORT).show();
-			}
-		});
+		mv.getMapAsync(this);
 	}
 
 	@Override
@@ -85,5 +70,19 @@ public class TrackingMyLocation extends Activity {
 		super.onSaveInstanceState(outState);
 
 		mv.onSaveInstanceState(outState);
+	}
+
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+		mc = new MapController(googleMap);
+
+		mc.startTrackMyLocation(new ChangeMyLocation() {
+			@Override
+			public void changed(GoogleMap map, Location location,
+								boolean lastLocation) {
+				Toast.makeText(TrackingMyLocation.this, location.toString(),
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }
