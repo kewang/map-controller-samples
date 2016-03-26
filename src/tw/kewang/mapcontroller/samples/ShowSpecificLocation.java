@@ -1,7 +1,5 @@
 package tw.kewang.mapcontroller.samples;
 
-import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangePosition;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,95 +12,101 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
-public class ShowSpecificLocation extends Activity {
-	private MapView mv;
-	private LatLng latLng = new LatLng(25.03338, 121.56463);
-	private Button btnMove;
-	private Button btnAnimate;
-	private MapController mc;
+import tw.kewang.mapcontroller.MapController;
+import tw.kewang.mapcontroller.MapController.ChangePosition;
+import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+public class ShowSpecificLocation extends Activity implements MapControllerReady {
+    private MapView mv;
+    private LatLng latLng = new LatLng(25.03338, 121.56463);
+    private Button btnMove;
+    private Button btnAnimate;
+    private MapController mc;
 
-		setContentView(R.layout.show_specific_location);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		findView();
-		setView(savedInstanceState);
-		setListener();
-		doExtra();
-	}
+        setContentView(R.layout.show_specific_location);
 
-	private void findView() {
-		mv = (MapView) findViewById(R.id.map);
-		btnMove = (Button) findViewById(R.id.button_move);
-		btnAnimate = (Button) findViewById(R.id.button_animate);
-	}
+        findView();
+        setView(savedInstanceState);
+        setListener();
+    }
 
-	private void setView(Bundle savedInstanceState) {
-		mv.onCreate(savedInstanceState);
+    private void findView() {
+        mv = (MapView) findViewById(R.id.map);
+        btnMove = (Button) findViewById(R.id.button_move);
+        btnAnimate = (Button) findViewById(R.id.button_animate);
+    }
 
-		mc = new MapController(mv.getMap());
-	}
+    private void setView(Bundle savedInstanceState) {
+        mv.onCreate(savedInstanceState);
 
-	private void setListener() {
-		btnMove.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mc.moveTo(latLng);
-			}
-		});
+        mc = new MapController(mv, this);
+    }
 
-		btnAnimate.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mc.animateTo(latLng, new ChangePosition() {
-					@Override
-					public void changed(GoogleMap map, CameraPosition position) {
-						Toast.makeText(ShowSpecificLocation.this,
-								position.toString(), Toast.LENGTH_SHORT).show();
-					}
-				});
-			}
-		});
-	}
+    private void setListener() {
+        btnMove.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mc.moveTo(latLng);
+            }
+        });
 
-	private void doExtra() {
-		mc.moveToMyLocation();
-	}
+        btnAnimate.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mc.animateTo(latLng, new ChangePosition() {
+                    @Override
+                    public void changed(GoogleMap map, CameraPosition position) {
+                        Toast.makeText(ShowSpecificLocation.this,
+                                position.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-		mv.onResume();
-	}
+        mv.onResume();
+    }
 
-	@Override
-	protected void onPause() {
-		mv.onPause();
+    @Override
+    protected void onPause() {
+        mv.onPause();
 
-		super.onPause();
-	}
+        super.onPause();
+    }
 
-	@Override
-	protected void onDestroy() {
-		mv.onDestroy();
+    @Override
+    protected void onDestroy() {
+        mv.onDestroy();
 
-		super.onDestroy();
-	}
+        super.onDestroy();
+    }
 
-	@Override
-	public void onLowMemory() {
-		super.onLowMemory();
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
-		mv.onLowMemory();
-	}
+        mv.onLowMemory();
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-		mv.onSaveInstanceState(outState);
-	}
+        mv.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void already(MapController controller) {
+        mc = controller;
+
+        controller.moveToMyLocation();
+    }
 }
