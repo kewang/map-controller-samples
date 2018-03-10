@@ -37,7 +37,7 @@ public class WhenInfoWindowClick extends Activity implements MapControllerReady 
     private void setView(Bundle savedInstanceState) {
         mv.onCreate(savedInstanceState);
 
-        mc = new MapController(mv.getMap());
+        mc = new MapController(mv, this);
     }
 
     @Override
