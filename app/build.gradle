@@ -3,10 +3,11 @@ apply plugin: 'com.android.application'
 buildscript {
     repositories {
         mavenCentral()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
@@ -14,18 +15,16 @@ repositories {
     flatDir {
         dirs "libs"
     }
-
-    maven { url "https://jitpack.io" }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "tw.kewang.mapcontroller.samples"
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -38,5 +37,13 @@ android {
 }
 
 dependencies {
-    compile 'com.github.kewang:map-controller:v2.0.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.github.kewang:map-controller:v2.1.0@aar'
+}
+
+allprojects {
+    repositories {
+        google()
+    }
 }
