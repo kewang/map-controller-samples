@@ -11,12 +11,6 @@ buildscript {
     }
 }
 
-repositories {
-    flatDir {
-        dirs "libs"
-    }
-}
-
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
@@ -28,18 +22,24 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
     implementation 'com.google.android.gms:play-services-location:12.0.1'
     implementation 'com.google.android.gms:play-services-maps:12.0.1'
-    implementation 'com.github.kewang:map-controller:v2.1.0@aar'
+    implementation project(":map-controller")
 }
 
 allprojects {
