@@ -1,15 +1,12 @@
 package tw.kewang.mapcontroller.samples;
 
 import android.app.Activity;
-import android.location.Location;
 import android.os.Bundle;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
 public class ShowSpecificBounds extends Activity implements MapControllerReady {
@@ -31,7 +28,7 @@ public class ShowSpecificBounds extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -85,11 +82,6 @@ public class ShowSpecificBounds extends Activity implements MapControllerReady {
     public void already(MapController controller) {
         mc = controller;
 
-        controller.moveToMyLocation(new ChangeMyLocation() {
-            @Override
-            public void changed(GoogleMap map, Location location) {
-                mc.setBounds(latLng1, latLng2, 10);
-            }
-        });
+        controller.moveToMyLocation((map, location) -> mc.setBounds(latLng1, latLng2, 10));
     }
 }

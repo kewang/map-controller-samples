@@ -1,20 +1,15 @@
 package tw.kewang.mapcontroller.samples;
 
+import android.app.Activity;
+import android.os.Bundle;
+
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 import tw.kewang.mapcontroller.MapController;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ShowMultiMaps extends Activity implements MapControllerReady {
     private static final LatLng[] latLngs = {new LatLng(25.0391667, 121.525),
@@ -22,8 +17,8 @@ public class ShowMultiMaps extends Activity implements MapControllerReady {
             new LatLng(24.754938, 121.752033),
             new LatLng(24.147498, 120.673313)};
 
-    private ArrayList<MapView> lstMv = new ArrayList<MapView>();
-    private ArrayList<MapController> lstMc = new ArrayList<MapController>();
+    private ArrayList<MapView> lstMv = new ArrayList<>();
+    private ArrayList<MapController> lstMc = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +33,10 @@ public class ShowMultiMaps extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        lstMv.add((MapView) findViewById(R.id.map1));
-        lstMv.add((MapView) findViewById(R.id.map2));
-        lstMv.add((MapView) findViewById(R.id.map3));
-        lstMv.add((MapView) findViewById(R.id.map4));
+        lstMv.add(findViewById(R.id.map1));
+        lstMv.add(findViewById(R.id.map2));
+        lstMv.add(findViewById(R.id.map3));
+        lstMv.add(findViewById(R.id.map4));
     }
 
     private void setView(Bundle savedInstanceState) {

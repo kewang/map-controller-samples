@@ -4,17 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ClickCallback;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
-import tw.kewang.mapcontroller.MapController.MarkerCallback;
 
 public class AddMarker extends Activity implements MapControllerReady {
     private MapView mv;
@@ -31,7 +26,7 @@ public class AddMarker extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -41,13 +36,7 @@ public class AddMarker extends Activity implements MapControllerReady {
     }
 
     private void addMarker(MarkerOptions opts) {
-        mc.addMarker(opts, new MarkerCallback() {
-            @Override
-            public void invokedMarker(GoogleMap map, Marker marker) {
-                Toast.makeText(AddMarker.this, marker.getId(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        mc.addMarker(opts, (map, marker) -> Toast.makeText(this, marker.getId(), Toast.LENGTH_SHORT).show());
     }
 
     @Override
@@ -89,18 +78,15 @@ public class AddMarker extends Activity implements MapControllerReady {
     public void already(MapController controller) {
         controller.moveToMyLocation();
 
-        controller.whenMapClick(new ClickCallback() {
-            @Override
-            public void clicked(GoogleMap map, LatLng latLng) {
-                MarkerOptions opts = new MarkerOptions();
+        controller.whenMapClick((map, latLng) -> {
+            MarkerOptions opts = new MarkerOptions();
 
-                opts.position(latLng);
-                opts.icon(BitmapDescriptorFactory.defaultMarker());
-                opts.title("Test Title");
-                opts.snippet("Summary");
+            opts.position(latLng);
+            opts.icon(BitmapDescriptorFactory.defaultMarker());
+            opts.title("Test Title");
+            opts.snippet("Summary");
 
-                addMarker(opts);
-            }
+            addMarker(opts);
         });
     }
 }

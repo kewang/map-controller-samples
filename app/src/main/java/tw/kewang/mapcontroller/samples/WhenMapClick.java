@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ClickCallback;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
 public class WhenMapClick extends Activity implements MapControllerReady {
@@ -27,7 +24,7 @@ public class WhenMapClick extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -75,12 +72,6 @@ public class WhenMapClick extends Activity implements MapControllerReady {
     public void already(MapController controller) {
         controller.moveToMyLocation();
 
-        controller.whenMapClick(new ClickCallback() {
-            @Override
-            public void clicked(GoogleMap map, LatLng latLng) {
-                Toast.makeText(WhenMapClick.this, latLng.toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        controller.whenMapClick((map, latLng) -> Toast.makeText(this, latLng.toString(), Toast.LENGTH_SHORT).show());
     }
 }

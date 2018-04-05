@@ -2,18 +2,13 @@ package tw.kewang.mapcontroller.samples;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangePosition;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
 public class ShowSpecificLocation extends Activity implements MapControllerReady {
@@ -35,9 +30,9 @@ public class ShowSpecificLocation extends Activity implements MapControllerReady
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
-        btnMove = (Button) findViewById(R.id.button_move);
-        btnAnimate = (Button) findViewById(R.id.button_animate);
+        mv = findViewById(R.id.map);
+        btnMove = findViewById(R.id.button_move);
+        btnAnimate = findViewById(R.id.button_animate);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -47,25 +42,9 @@ public class ShowSpecificLocation extends Activity implements MapControllerReady
     }
 
     private void setListener() {
-        btnMove.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mc.moveTo(latLng);
-            }
-        });
+        btnMove.setOnClickListener(v -> mc.moveTo(latLng));
 
-        btnAnimate.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mc.animateTo(latLng, new ChangePosition() {
-                    @Override
-                    public void changed(GoogleMap map, CameraPosition position) {
-                        Toast.makeText(ShowSpecificLocation.this,
-                                position.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+        btnAnimate.setOnClickListener(v -> mc.animateTo(latLng, (map, position) -> Toast.makeText(this, position.toString(), Toast.LENGTH_SHORT).show()));
     }
 
     @Override

@@ -2,8 +2,6 @@ package tw.kewang.mapcontroller.samples;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.google.android.gms.maps.MapView;
@@ -28,8 +26,8 @@ public class ShowMyLocation extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
-        btnShowMyLocation = (Button) findViewById(R.id.button_show_my_location);
+        mv = findViewById(R.id.map);
+        btnShowMyLocation = findViewById(R.id.button_show_my_location);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -39,12 +37,7 @@ public class ShowMyLocation extends Activity implements MapControllerReady {
     }
 
     private void setListener() {
-        btnShowMyLocation.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mc.moveToMyLocation();
-            }
-        });
+        btnShowMyLocation.setOnClickListener(v -> mc.moveToMyLocation());
     }
 
     @Override

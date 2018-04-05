@@ -1,15 +1,12 @@
 package tw.kewang.mapcontroller.samples;
 
 import android.app.Activity;
-import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ChangeMyLocation;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
 
 public class TrackingMyLocation extends Activity implements MapControllerReady {
@@ -27,7 +24,7 @@ public class TrackingMyLocation extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -77,12 +74,6 @@ public class TrackingMyLocation extends Activity implements MapControllerReady {
     public void already(MapController controller) {
         mc = controller;
 
-        controller.startTrackMyLocation(new ChangeMyLocation() {
-            @Override
-            public void changed(GoogleMap map, Location location) {
-                Toast.makeText(TrackingMyLocation.this, location.toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        controller.startTrackMyLocation((map, location) -> Toast.makeText(this, location.toString(), Toast.LENGTH_SHORT).show());
     }
 }

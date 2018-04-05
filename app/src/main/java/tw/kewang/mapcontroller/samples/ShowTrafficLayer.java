@@ -23,7 +23,7 @@ public class ShowTrafficLayer extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {

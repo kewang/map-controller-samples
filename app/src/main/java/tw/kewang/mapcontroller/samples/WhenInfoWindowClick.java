@@ -4,17 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import tw.kewang.mapcontroller.MapController;
-import tw.kewang.mapcontroller.MapController.ClickCallback;
 import tw.kewang.mapcontroller.MapController.MapControllerReady;
-import tw.kewang.mapcontroller.MapController.MarkerCallback;
 
 public class WhenInfoWindowClick extends Activity implements MapControllerReady {
     private MapView mv;
@@ -31,7 +26,7 @@ public class WhenInfoWindowClick extends Activity implements MapControllerReady 
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -81,29 +76,21 @@ public class WhenInfoWindowClick extends Activity implements MapControllerReady 
 
         controller.moveToMyLocation();
 
-        controller.whenMapClick(new ClickCallback() {
-            @Override
-            public void clicked(GoogleMap map, LatLng latLng) {
-                MarkerOptions opts = new MarkerOptions();
+        controller.whenMapClick((map, latLng) -> {
+            MarkerOptions opts = new MarkerOptions();
 
-                opts.position(latLng);
-                opts.icon(BitmapDescriptorFactory.defaultMarker());
-                opts.title("Test Title");
-                opts.snippet("Summary");
+            opts.position(latLng);
+            opts.icon(BitmapDescriptorFactory.defaultMarker());
+            opts.title("Test Title");
+            opts.snippet("Summary");
 
-                mc.addMarker(opts);
-            }
+            mc.addMarker(opts);
         });
 
-        controller.whenInfoWindowClick(new MarkerCallback() {
-            @Override
-            public void invokedMarker(GoogleMap map, Marker marker) {
-                Toast.makeText(WhenInfoWindowClick.this,
-                        marker.getId() + ": " + marker.getTitle(),
-                        Toast.LENGTH_SHORT).show();
+        controller.whenInfoWindowClick((map, marker) -> {
+            Toast.makeText(this, marker.getId() + ": " + marker.getTitle(), Toast.LENGTH_SHORT).show();
 
-                marker.hideInfoWindow();
-            }
+            marker.hideInfoWindow();
         });
     }
 }

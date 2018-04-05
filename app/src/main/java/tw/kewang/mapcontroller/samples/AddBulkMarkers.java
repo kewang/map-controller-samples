@@ -29,7 +29,7 @@ public class AddBulkMarkers extends Activity implements MapControllerReady {
     }
 
     private void findView() {
-        mv = (MapView) findViewById(R.id.map);
+        mv = findViewById(R.id.map);
     }
 
     private void setView(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class AddBulkMarkers extends Activity implements MapControllerReady {
     public void already(MapController controller) {
         controller.moveToMyLocation();
 
-        allOpts = new ArrayList<MarkerOptions>();
+        allOpts = new ArrayList<>();
 
         addMarker(25.04157, 121.51519, "228");
         addMarker(25.03338, 121.56226, "Taipei 101");
