@@ -87,8 +87,7 @@ public class ShowSpecificBounds extends Activity implements MapControllerReady {
 
         controller.moveToMyLocation(new ChangeMyLocation() {
             @Override
-            public void changed(GoogleMap map, Location location,
-                                boolean lastLocation) {
+            public void changed(GoogleMap map, Location location) {
                 mc.setBounds(latLng1, latLng2, 10);
             }
         });

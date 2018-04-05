@@ -79,8 +79,7 @@ public class TrackingMyLocation extends Activity implements MapControllerReady {
 
         controller.startTrackMyLocation(new ChangeMyLocation() {
             @Override
-            public void changed(GoogleMap map, Location location,
-                                boolean lastLocation) {
+            public void changed(GoogleMap map, Location location) {
                 Toast.makeText(TrackingMyLocation.this, location.toString(),
                         Toast.LENGTH_SHORT).show();
             }
